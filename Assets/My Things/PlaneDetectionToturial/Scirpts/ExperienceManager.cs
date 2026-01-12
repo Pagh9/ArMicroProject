@@ -1,7 +1,8 @@
-using NUnit.Framework;
+
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -32,6 +33,7 @@ public class ExperienceManager : MonoBehaviour
         if (!_canAddHumanModel) return; 
        
         var humanModel = Instantiate(humanModelPrefab);
+        // No AR Anchor Manager or anchor creation, just raycast, instantiates a model and parrent to tackable plane.
         humanModel.GetComponent<HumanModel>().PlaceHumanModel(_currentTrackable);
         humanModel.transform.position = detectedPosition;
         humanModel.transform.rotation = detectedRotation;
@@ -47,7 +49,10 @@ public class ExperienceManager : MonoBehaviour
     private void GetRayCastHitTransform()
     {
         var hits = new List<ARRaycastHit>();
+
+        // hard coded raycast. Used middlescreen instead of tap position
         var middleScreen = new Vector2(Screen.width / 2, Screen.height / 2);
+        
         if (ARRaycastManager.Raycast(middleScreen, hits, TrackableType.PlaneWithinPolygon))
         {
             detectedPosition = hits[0].pose.position;
@@ -69,4 +74,9 @@ public class ExperienceManager : MonoBehaviour
         addHumenModel.gameObject.SetActive(!_canAddHumanModel);
         _humanModelPreview.gameObject.SetActive(canAddHumanModel);
     }
+    
+
+ 
+
+   
 }

@@ -1,33 +1,38 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
 {
-    public static event Action OnTap;
-    private UserInput _userInput;
+     public static event Action OnTap;
+     private UserInput _userInput;
 
-    private void Awake()
-    {
-        _userInput = new UserInput();
-        _userInput.Enable();
+     private void Awake()
+     {
+         _userInput = new UserInput();
+         _userInput.Enable();
 
-    }
+     }
 
-    private void Start()
-    {
-        _userInput.MobileTouch.Tap.performed += OnTapPerformed;
+     private void Start()
+     {
+         _userInput.MobileTouch.Tap.performed += OnTapPerformed;
 
-    }
+     }
 
-    private void OnTapPerformed(InputAction.CallbackContext context)
-    {
-        OnTap?.Invoke();
+     private void OnTapPerformed(InputAction.CallbackContext context)
+     {
+         OnTap?.Invoke();
 
-    }
+     }
 
-    private void OnDestroy()
-    {
-        _userInput.MobileTouch.Tap.performed -= OnTapPerformed;
-    }
+     private void OnDestroy()
+     {
+         _userInput.MobileTouch.Tap.performed -= OnTapPerformed;
+     }
+
+    
+
+
 }
